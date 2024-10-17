@@ -161,4 +161,8 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+# ignore all local history of files and credentials
 *.lock
+*.DS_Store
+*.pem
+test

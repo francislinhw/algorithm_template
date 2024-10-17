@@ -109,3 +109,137 @@ class Solution(object):
             rightPtr += 1  # template
 
         return profit
+
+    # practice
+    def replaceElements(self, arr):
+        """
+        :type arr: List[int]
+        :rtype: List[int]
+        """
+
+        newArr = arr
+
+        for i in range(len(arr)):
+
+            if i == len(arr) - 1:
+                newArr[i] = -1
+            else:
+                newArr[i] = max(arr[i + 1 :])
+        return newArr
+
+        # Time complexity is O(n)
+        # Sapce compelxity is O(n)
+
+        # so I need to use space to earn time.
+
+    def twoSum(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        # numsPositionHash = {}
+        # for i in range(len(nums)):
+        #     numsPositionHash[nums[i]] = i
+        #
+        # nums.sort()
+        #
+        # lPtr = 0
+        # rPtr = len(nums) - 1
+        #
+        # while lPtr < rPtr:
+        #     if nums[lPtr] + nums[rPtr] > target:
+        #         rPtr -= 1
+        #     elif  nums[lPtr] + nums[rPtr] < target:
+        #         lPtr += 1
+        #     else:
+        #         if numsPositionHash[nums[lPtr]] == numsPositionHash[nums[rPtr]]:
+        #             return [numsPositionHash[nums[lPtr]]-1, numsPositionHash[nums[rPtr]]]
+        #         return [numsPositionHash[nums[lPtr]], numsPositionHash[nums[rPtr]]]
+
+        newToOldIndexMap = {}
+
+        for i in range(len(nums)):
+            newToOldIndexMap[i] = i
+
+        while True:
+            hasExchange = False
+            for i in range(len(nums) - 1):
+                if nums[i] > nums[i + 1]:
+                    temp = nums[i + 1]
+                    nums[i + 1] = nums[i]
+                    nums[i] = temp
+                    newToOldIndexMap[i] = i + 1
+                    newToOldIndexMap[i + 1] = i
+                    hasExchange = True
+
+            if hasExchange == False:
+                break
+
+            hasExchange = False
+
+        lPtr = 0
+        rPtr = len(nums) - 1
+
+        while lPtr < rPtr:
+            if nums[lPtr] + nums[rPtr] > target:
+                rPtr -= 1
+            elif nums[lPtr] + nums[rPtr] < target:
+                lPtr += 1
+            else:
+                return [newToOldIndexMap[lPtr], newToOldIndexMap[rPtr]]
+
+    def reverseString(self, s):
+        """
+        :type s: List[str]
+        :rtype: None Do not return anything, modify s in-place instead.
+        """
+        returnS = s
+
+        lPtr = 0
+        rPtr = len(s) - 1
+
+        while lPtr < rPtr:
+            returnS[lPtr] = s[rPtr]
+            returnS[rPtr] = s[lPtr]
+
+        return returnS
+
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+
+        lPtr = 0
+        rPtr = 0
+
+        length = 0
+
+        while rPtr < len(s) - 1:
+            if s[rPtr] in s[lPtr:rPtr]:
+                lPtr += 1
+            else:
+                rPtr += 1
+            maxLength = max(rPtr - lPtr, length)
+
+        return maxLength
+
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        lPtr = 0
+        rPtr = 0
+
+        length = 0
+
+        while rPtr < len(s) - 1:
+            if s[rPtr] in s[lPtr:rPtr]:
+                lPtr += 1
+            else:
+                rPtr += 1
+            maxLength = max(rPtr - lPtr, length)
+
+        return maxLength
