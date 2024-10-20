@@ -8,37 +8,34 @@ class Node(object):
         left = None
         right = None
 
+    # graph: backtraking dynamic programming: dfs or bfs
 
-# graph: backtraking dynamic programming: dfs or bfs
+    # depth first search or breadth first search
+    # time complexity: O(n) - n is the number of nodes
+    # recurrsion hight of the tree O(H)
 
-# depth first search or breadth first search
-# time complexity: O(n) - n is the number of nodes
-# recurrsion hight of the tree O(H)
+    # depth first search: go to the deepest node first and then backtrack
+    # breadth first search: go to the next level first and then go to the next level
 
+    # time complexity: O(n) - n is the number of nodes
+    # space complexity: O(n) - n is the number of nodes
+    # binary search tree / binary tree # 99% left is first and right is second
+    # O(2n -1)
 
-# depth first search: go to the deepest node first and then backtrack
-# breadth first search: go to the next level first and then go to the next level
+    # time complexity: O(n) - n is the number of nodes
 
-# time complexity: O(n) - n is the number of nodes
-# space complexity: O(n) - n is the number of nodes
-# binary search tree / binary tree # 99% left is first and right is second
-# O(2n -1)
+    # binary search tree / binary tree # 99% left is first and right is second
 
-# time complexity: O(n) - n is the number of nodes
-
-# binary search tree / binary tree # 99% left is first and right is second
-
-
-def dfs(node):
-    if node is None:
-        return None
-    dfs(node.left)
-    dfs(node.right)
+    def dfs(self, node):
+        if node is None:
+            return None
+        self.dfs(node.left)
+        self.dfs(node.right)
 
     # deck is pop_left and pop_right (deque)
 
     # DFS:
-    def dfs(self, root):
+    def invertTree(self, root):
         if not root:
             return None
 
@@ -243,3 +240,38 @@ class Solution(object):
             else:
                 return bSearch(m)
         return False
+
+    class ListNode(object):
+        def __init__(self, val=0, next=None):
+            self.val = val
+            self.next = next
+
+    def reverseList(self, head):
+        """
+        :type head: Optional[ListNode]
+        :rtype: Optional[ListNode]
+        """
+        cur = head
+        prev = None
+
+        while cur:
+            nextNode = cur.next
+            cur.next = prev
+            prev = cur
+            cur = nextNode
+
+        return prev
+
+
+# Example of reverse linked list
+# 1 -> 2 -> 3 -> 4 -> 5 -> None
+# None <- 1 <- 2 <- 3 <- 4 <- 5
+
+list_node = Solution.ListNode(1)
+list_node.next = Solution.ListNode(2)
+list_node.next.next = Solution.ListNode(3)
+list_node.next.next.next = Solution.ListNode(4)
+list_node.next.next.next.next = Solution.ListNode(5)
+
+a = Solution().reverseList(list_node)
+print(a)
