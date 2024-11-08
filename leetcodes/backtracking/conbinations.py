@@ -1,0 +1,35 @@
+# https://leetcode.com/problems/combinations/
+
+from typing import List
+
+
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+
+        if not n or not k:
+            return []
+
+        def dfs(start: int) -> None:
+            if len(tmp) == k:
+                res.append(tmp.copy())
+                return
+
+            for i in range(start, n + 1):
+                tmp.append(i)
+                dfs(i + 1)
+                tmp.pop()
+
+        res = []
+        tmp = []
+
+        dfs(1)
+        return res
+
+
+# 77. Combinations
+n = 4
+k = 2
+
+solution = Solution().combine(n, k)
+
+print(solution == [[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]])
