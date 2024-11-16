@@ -1,3 +1,8 @@
+# https://leetcode.com/problems/permutations/description/
+
+from typing import List
+
+
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
 
@@ -13,7 +18,7 @@ class Solution:
                 return
 
             for num in nums:
-                if num not in seen: # n!
+                if num not in seen:  # n!
                     seen.add(num)
                     curr.append(num)
                     backtrack()

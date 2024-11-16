@@ -2,12 +2,15 @@
 from collections import deque
 from typing import Optional
 
+# https://leetcode.com/problems/subtree-of-another-tree/
+
 
 class TreeNode(object):
     def __init__(self, val=0, left=None, right=None):
         self.val = val
         self.left = left
         self.right = right
+
 
 class Solution(object):
     def isSubtree(self, root, subRoot):
@@ -42,24 +45,24 @@ class Solution(object):
 
                     if node1.left:
                         qIn1.append(node1.left)
-                    
+
                     if node1.right:
-                        qIn1.append(node1.right)     
+                        qIn1.append(node1.right)
 
                     if node2.left:
                         qIn2.append(node2.left)
-                    
+
                     if node2.right:
-                        qIn2.append(node2.right)   
+                        qIn2.append(node2.right)
 
                     if len(qIn1) != len(qIn2):
                         return False
-            
+
             if qIn1:
                 return False
             if qIn2:
                 return False
-        
+
             return True
 
         q = deque()
@@ -71,20 +74,20 @@ class Solution(object):
 
                 if node.left:
                     q.append(node.left)
-                
+
                 if node.right:
-                    q.append(node.right)     
+                    q.append(node.right)
 
                 if isTheSameNode(node, subRoot):
                     return True
-                
+
         return False
 
 
-# 
+#
 class Solution:
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
-        
+
         if not root:
             return False
 
@@ -98,15 +101,16 @@ class Solution:
             left = sameTree(p.left, q.left)
             right = sameTree(p.right, q.right)
             return left and right
-        
+
         if root.val == subRoot.val:
             if sameTree(root, subRoot):
                 return True
-        
+
         left = self.isSubtree(root.left, subRoot)
         right = self.isSubtree(root.right, subRoot)
         return left or right
-    
+
+
 # root = [4, 5] subRoot = [4, null, 5] => False
 root = TreeNode(4)
 root.left = TreeNode(5)
@@ -116,4 +120,4 @@ subRoot.left = None
 subRoot.right = TreeNode(5)
 
 s = Solution()
-print(s.isSubtree(root, subRoot)) # True d
+print(s.isSubtree(root, subRoot))  # True d

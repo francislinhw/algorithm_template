@@ -26,6 +26,24 @@ class Solution:
         return res
 
 
+"""
+        nList = [n for n in range(1,n+1)]
+        res = []
+        def dfs(i, curr):
+            if len(curr) == k:
+                res.append(curr.copy())
+                return
+            if i >= len(nList):
+                return
+            
+            curr.append(nList[i])
+            dfs(i+1, curr)
+            curr.pop()
+            dfs(i+1, curr)
+        dfs(0, [])
+        return res
+        """
+
 # 77. Combinations
 n = 4
 k = 2

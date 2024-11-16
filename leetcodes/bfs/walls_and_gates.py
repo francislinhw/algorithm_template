@@ -3,11 +3,14 @@ from typing import (
 )
 from collections import deque
 
+
+# https://www.lintcode.com/problem/663/description
 class Solution:
     """
     @param rooms: m x n 2D grid
     @return: nothing
     """
+
     def walls_and_gates(self, grid: List[List[int]]):
         # write your code here
         direction = [(0, 1), (0, -1), (-1, 0), (1, 0)]
@@ -16,7 +19,7 @@ class Solution:
 
         visited = set()
 
-        q = deque() # only diff of bfs dfs
+        q = deque()  # only diff of bfs dfs
 
         # add gates
         for r in range(rowLen):
@@ -24,7 +27,7 @@ class Solution:
                 if grid[r][c] == 0:
                     q.append((r, c))
 
-        count = 0 # bfs
+        count = 0  # bfs
         while q:
             for i in range(len(q)):
                 r, c = q.popleft()
@@ -37,7 +40,14 @@ class Solution:
                 for dr, dc in direction:
                     newR = r + dr
                     newC = c + dc
-                    if newR < 0 or newC < 0 or newR >= rowLen or newC >= colLen or grid[newR][newC] <= 0 or (newR, newC) in visited:
+                    if (
+                        newR < 0
+                        or newC < 0
+                        or newR >= rowLen
+                        or newC >= colLen
+                        or grid[newR][newC] <= 0
+                        or (newR, newC) in visited
+                    ):
                         continue
                     q.append((newR, newC))
             count += 1
@@ -46,13 +56,15 @@ class Solution:
 
 # Test Cases
 
-input = [[2147483647,-1,0,2147483647],[2147483647,2147483647,2147483647,-1],[2147483647,-1,2147483647,-1],[0,-1,2147483647,2147483647]]
-expected = [[3,-1,0,1],[2,2,1,-1],[1,-1,2,-1],[0,-1,3,4]]
+input = [
+    [2147483647, -1, 0, 2147483647],
+    [2147483647, 2147483647, 2147483647, -1],
+    [2147483647, -1, 2147483647, -1],
+    [0, -1, 2147483647, 2147483647],
+]
+expected = [[3, -1, 0, 1], [2, 2, 1, -1], [1, -1, 2, -1], [0, -1, 3, 4]]
 
 s = Solution()
 
 
 print(s.walls_and_gates(input) == expected)
-
-
-

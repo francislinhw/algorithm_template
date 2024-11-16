@@ -1,6 +1,8 @@
 import heapq
 from math import sqrt
 
+# https://leetcode.com/problems/k-closest-points-to-origin/description/
+
 
 class Solution(object):
     def kClosest(self, points, k):
