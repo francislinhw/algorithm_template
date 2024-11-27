@@ -1,9 +1,13 @@
 # https://leetcode.com/problems/min-cost-to-connect-all-points/
+from collections import heapq
+from typing import List
+
+
 class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
         # Prim Algorithem (greedy algorithm)
         # this algo = heap + bfs
-        # MST
+        # MST (Minimum Spanning Tree) algorithm
         N = len(points)
         adj = {i: [] for i in range(N)}
         for i in range(N):

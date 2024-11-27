@@ -1,4 +1,6 @@
 # https://leetcode.com/problems/network-delay-time/description/
+from collections import heapq
+from typing import List
 
 
 class Solution:
