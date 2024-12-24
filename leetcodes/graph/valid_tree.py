@@ -72,4 +72,5 @@ class Solution:
                             q.append(child)
 
         bfs(0)
+                # For tree, the number of nodes is equal to the number of edge + 1
         return True if len(visited) == n else False

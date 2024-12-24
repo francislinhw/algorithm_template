@@ -1,3 +1,4 @@
+# https://leetcode.com/problems/permutations-ii/
 from typing import List
 
 
@@ -59,3 +60,26 @@ class Solution:
 
         dfs(currPerm)
         return res
+
+"""
+		if not nums:
+			return []
+		
+		result = set()
+
+		def dfs(conbination: list):
+			if len(conbnation) == len(nums):
+				result.append(conbination)
+			node = nums.pop()
+			
+			for num in nums:
+				dfs(node + num)
+
+			nums.append(node)
+					
+
+
+		dfs([])
+
+		return result
+"""
