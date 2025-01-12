@@ -1,4 +1,5 @@
 # https://www.lintcode.com/problem/892/description
+# hard -> memorize
 from typing import List
 
 

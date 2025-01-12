@@ -4,7 +4,9 @@ class Solution:
         if not n:
             return 0
         
-        temp = [1] * 2
+        temp = [1] * 2 # set the first two elements to 1 to satisfy the base case
+        # base case: n = 1, return 1
+        # base case: n = 2, return 2
 
         for i in reversed(range(n - 1)):
             tem = temp[0] + temp[1]

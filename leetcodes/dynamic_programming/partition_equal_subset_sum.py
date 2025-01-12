@@ -10,7 +10,7 @@ class Solution:
         dp = set()
         dp.add(0)
 
-        for i in reversed(range(len(nums))):
+        for i in reversed(range(len(nums))): # reversed or not, it doesn't matter
             newDp = dp.copy() # newDp = set() 
             for j in dp:
                 newDp.add(j+nums[i])

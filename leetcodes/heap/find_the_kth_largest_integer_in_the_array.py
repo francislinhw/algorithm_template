@@ -1,7 +1,7 @@
 # https://leetcode.com/problems/find-the-kth-largest-integer-in-the-array/
 
 import heapq
-
+from typing import List
 
 class Solution(object):
     def kthLargestNumber(self, nums, k):
@@ -29,3 +29,34 @@ class Solution(object):
             # if i == target:
             #  return str(kLargest)
         return str(kLargest)
+    
+
+# Quick selection Algorithm
+
+def findKthLargest(nums: List, k: int) -> int:
+    sizeN = len(nums)
+    l = 0
+    r = sizeN
+
+    while l < r:
+        i = l
+        j = r - 1
+        pivot = nums[l]
+        while i <= j:
+            while i <= j and nums[i] >= pivot:
+                i += 1
+            while i <= j and nums[i] < pivot:
+                j -= 1
+            if i < j:
+                swap(nums[i++], nums[j--])
+        swap(nums[left], nums[j])
+        if j == k -1:
+            return nums[j]
+        if j < k - 1:
+            left = j + 1
+        else:
+            right = j
+
+
+
+

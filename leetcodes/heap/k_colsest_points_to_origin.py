@@ -16,7 +16,7 @@ class Solution(object):
 
         listSD = []  # index length
 
-        def lenToOrigin(x, y):
+        def lenToOrigin(x, y) -> float:
             return sqrt(x**2 + y**2)
 
         for i in range(len(points)):
