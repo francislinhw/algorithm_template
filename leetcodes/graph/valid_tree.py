@@ -1,3 +1,5 @@
+# https://leetcode.com/problems/graph-valid-tree/ (Subscription required)
+# https://neetcode.io/problems/valid-tree
 from typing import (
     List,
 )
@@ -72,5 +74,45 @@ class Solution:
                             q.append(child)
 
         bfs(0)
-                # For tree, the number of nodes is equal to the number of edge + 1
+        # For tree, the number of nodes is equal to the number of edge + 1
+        return True if len(visited) == n else False
+
+
+# Dfs
+class Solution:
+    def validTree(self, n: int, edges: List[List[int]]) -> bool:
+        if not n:
+            return False
+
+        if not edges:
+            return True
+
+        # edge case remember
+        if n - 1 != len(edges):
+            return False
+
+        adjList = {_: [] for _ in range(n)}
+
+        visited = set()
+
+        print(adjList)
+
+        for edge in edges:
+            s, e = edge
+            adjList[s].append(e)
+            adjList[e].append(s)
+
+        def dfs(node):
+            if node in visited:
+                return False
+
+            visited.add(node)
+
+            for subnode in adjList[node]:
+                dfs(subnode)
+
+        dfs(0)
+
+        print(visited)
+
         return True if len(visited) == n else False

@@ -49,5 +49,11 @@ class Solution:
             combArr = conquer(leftArr, rightArr)
             return combArr
 
+        return divide(nums)
 
-# ============================================
+
+# ******** Example ******** #
+
+solution = Solution()
+nums = [1, 3, 5, 7, 2, 4, 6, 8]
+print(solution.sortArray(nums))
