@@ -1,26 +1,3 @@
-
-class Stack(object):
-
-    def __init__(self):
-        self.stack = []
-
-    def push(self, val):
-        self.stack.append(val)
-
-    def pop(self):
-        self.stack.pop()
-
-    def top(self):
-        if len(self.stack) == 0:
-            return None
-        else:
-            return self.stack[-1]
-
-    def toString(self):
-        return "".join(self.stack)
-
-
-
 class Solution:
     # graph: backtraking dynamic programming: dfs or bfs
 
@@ -105,48 +82,3 @@ class Solution:
                 l = r
                 currSum = 0
         return res
-
-
-class Stack(object):
-
-    def __init__(self):
-        self.stack = []
-
-    def push(self, val):
-        self.stack.append(val)
-
-    def pop(self):
-        self.stack.pop()
-
-    def top(self):
-        if len(self.stack) == 0:
-            return None
-        else:
-            return self.stack[-1]
-
-    def toString(self):
-        return "".join(self.stack)
-
-
-class Solution(object):
-    def makeGood(self, s):
-        """
-        :type s: str
-        :rtype: str
-        """
-        sStack = Stack()
-
-        def checkCondition(s1, s2):
-            if s1 == None or s2 == None:
-                return False
-            return s1.upper() == s2.upper() and s1 != s2
-            # return s1.lower() == s2.lower() and s1 == s2.lower() and s1.upper() == s2
-
-        for char in s:
-            if sStack and checkCondition(sStack.top(), char):
-                sStack.pop()
-            else:
-                sStack.push(char)  # space complexity O(n)
-
-        return sStack.toString()
-

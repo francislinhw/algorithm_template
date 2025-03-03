@@ -1,6 +1,44 @@
 # https://leetcode.com/problems/3sum/
 
+
 from typing import List
+
+
+class Solution:
+    # 27 Feb 2025 practice
+
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()  # 先排序 O(n log n)
+        result = []
+        n = len(nums)
+
+        for i in range(n - 2):  # 固定第一個數
+            if i > 0 and nums[i] == nums[i - 1]:  # 避免重複解
+                continue
+
+            l, r = i + 1, n - 1  # 雙指針
+            while l < r:
+                total = nums[i] + nums[l] + nums[r]
+
+                if total == 0:
+                    result.append([nums[i], nums[l], nums[r]])
+
+                    # 跳過重複數字
+                    while l < r and nums[l] == nums[l + 1]:
+                        l += 1
+                    while l < r and nums[r] == nums[r - 1]:
+                        r -= 1
+
+                    # 繼續找下一組
+                    l += 1
+                    r -= 1
+
+                elif total < 0:
+                    l += 1  # 總和太小，右移左指針
+                else:
+                    r -= 1  # 總和太大，左移右指針
+
+        return result
 
 
 class Solution:
