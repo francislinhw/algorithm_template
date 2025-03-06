@@ -3,6 +3,30 @@
 from typing import List
 
 
+# 4 March 2025
+class Solution:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        # 10.50
+
+        auxilaryRow = [False for i in range(len(matrix))]
+        auxilaryColumn = [False for i in range(len(matrix[0]))]
+
+        for i in range(len(matrix[0])):
+            for j in range(len(matrix)):
+                if matrix[j][i] == 0:
+                    auxilaryRow[j] = True
+                    auxilaryColumn[i] = True
+
+        for i in range(len(matrix[0])):
+            for j in range(len(matrix)):
+                if auxilaryRow[j] == True:
+                    matrix[j][i] = 0
+                if auxilaryColumn[i] == True:
+                    matrix[j][i] = 0
+
+        return matrix  # 8 min
+
+
 class Solution:
     def setZeroes(self, matrix: List[List[int]]) -> None:
         """

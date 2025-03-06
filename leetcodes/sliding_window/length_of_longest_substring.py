@@ -82,3 +82,5 @@ class Solution:
             rPtr += 1
 
         return length
+
+        # space O(1) because alphabet only has 26 chars.
