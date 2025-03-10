@@ -3,6 +3,27 @@
 from typing import List
 
 
+# 8 March 2025 Practice
+class Solution:
+    def plusOne(self, digits: List[int]) -> List[int]:
+        # 12.00
+
+        num = 0
+
+        for i in range(len(digits)):
+            num += digits[i] * 10 ** (len(digits) - 1 - i)
+
+        num += 1
+        numString = str(num)
+
+        result = []
+
+        for i in numString:
+            result.append(int(i))
+
+        return result  # 12.04 4 min
+
+
 class Solution:
     def plusOne(self, digits: List[int]) -> List[int]:
 

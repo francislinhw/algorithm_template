@@ -22,6 +22,8 @@
 
 # print(cacheMap)
 
+from typing import List
+
 
 # return res
 class Solution:
@@ -32,10 +34,10 @@ class Solution:
         prefix = 1
         for i in range(len(nums)):
             res[i] = prefix
-            prefix *= nums[i]
+            prefix *= nums[i]  # left product
         # [1, 1, 2, 6]
         postfix = 1
         for j in reversed(range(len(nums))):
             res[j] *= postfix
-            postfix *= nums[j]
+            postfix *= nums[j]  # right product
         return res

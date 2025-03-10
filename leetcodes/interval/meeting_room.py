@@ -1,5 +1,6 @@
 # https://www.lintcode.com/problem/920/
 
+
 from typing import (
     List,
 )
@@ -13,6 +14,39 @@ class Interval(object):
     def __init__(self, start, end):
         self.start = start
         self.end = end
+
+
+# 9 March 2025 practice
+class Solution:
+    """
+    @param intervals: an array of meeting time intervals
+    @return: if a person could attend all meetings
+    """
+
+    def can_attend_meetings(self, intervals: List[Interval]) -> bool:
+        # Write your code here
+
+        intervalsList = []
+
+        for interval in intervals:
+            start = interval.start
+            end = interval.end
+            intervalsList.append([start, end])
+
+        intervalsList.sort()
+
+        prevEnd = None
+
+        for interval in intervalsList:
+            start = interval[0]
+            end = interval[1]
+            if prevEnd is None:
+                prevEnd = end
+            else:
+                if start < prevEnd:
+                    return False
+                prevEnd = max(end, prevEnd)
+        return True
 
 
 class Solution:
