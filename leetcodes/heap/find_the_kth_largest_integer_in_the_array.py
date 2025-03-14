@@ -3,6 +3,23 @@
 import heapq
 from typing import List
 
+# 11 March 2025 Practice
+class Solution:
+    def kthLargestNumber(self, nums: List[str], k: int) -> str:
+        # 8.35
+        newNums = []
+
+        for i in nums:
+            newNums.append(int(i))
+        
+        heapq.heapify(newNums)
+
+        while len(newNums) > k:
+            a = heapq.heappop(newNums)
+
+        result = str(heapq.heappop(newNums))
+        
+        return result
 class Solution(object):
     def kthLargestNumber(self, nums, k):
         """

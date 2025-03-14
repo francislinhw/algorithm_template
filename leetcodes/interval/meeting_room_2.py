@@ -23,7 +23,9 @@ class Solution:
 
     def min_meeting_rooms(self, intervals: List[Interval]) -> int:
         start = sorted([i.start for i in intervals])
-        end = sorted([j.end for j in intervals])
+        end = sorted(
+            [j.end for j in intervals]
+        )  # equivalent to end = [j.end for j in intervals].sort()
         cnt = 0
         res = 0
 

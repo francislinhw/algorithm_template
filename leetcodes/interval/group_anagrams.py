@@ -41,6 +41,37 @@
 from typing import List
 
 
+# 10 March 2025 practice
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        # 11.47
+
+        def encode(word) -> List[int]:
+            result = [0 for i in range(27)]
+            base = ord("a") - 1
+
+            for char in word:
+                index = ord(char) - base
+                result[index] += 1
+
+            return result
+
+        hashMap = {}
+
+        for word in strs:
+            code = tuple(encode(word))
+            if code not in hashMap:
+                hashMap[code] = []
+            hashMap[code].append(word)
+
+        res = []
+
+        for i, lis in hashMap.items():
+            res.append(lis)
+
+        return res  # 11.58 10 min
+
+
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
 
