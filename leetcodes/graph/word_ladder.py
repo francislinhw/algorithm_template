@@ -5,6 +5,89 @@ from collections import deque
 
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        # 2.36
+        # BFS: map from word to words
+        # BFS cnt += 1
+        # 將 wordList 轉換為 set 以加速查找
+        wordSet = set(wordList)
+        if endWord not in wordSet:
+            return 0  # 目標單詞不在字典內，不可能轉換成功
+
+        def countWordDiff(word1, word2) -> int:
+            return sum(1 for i in range(len(word1)) if word1[i] != word2[i])
+
+        # 建立 BFS queue
+        queue = deque([(beginWord, 1)])  # (當前字, BFS 層數)
+        visited = set()
+
+        while queue:
+            currentWord, layer = queue.popleft()
+
+            if currentWord == endWord:
+                return layer  # 找到 endWord，返回步數
+
+            for i in range(len(currentWord)):
+                for c in "abcdefghijklmnopqrstuvwxyz":
+                    newWord = currentWord[:i] + c + currentWord[i + 1 :]
+                    if newWord in wordSet and newWord not in visited:
+                        visited.add(newWord)
+                        queue.append((newWord, layer + 1))
+
+        return 0  # 無法轉換
+
+
+class Solution:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        # 2.36
+        # BFS: map from word to words
+        # BFS cnt += 1
+        wordList.append(beginWord)
+
+        def countWordDiff(word1, word2) -> int:
+            cnt = 0
+            for i in range(len(word1)):
+                char = word1[i]
+                if char != word2[i]:
+                    cnt += 1
+            return cnt
+
+        wordHashMap = {}
+
+        for word in wordList:
+            wordHashMap[word] = []
+
+        for key, content in wordHashMap.items():
+            for word in wordList:
+                if countWordDiff(key, word) == 1:
+                    content.append(word)
+
+        visited = set()
+        queue = deque([[beginWord]])
+        layer = 1
+
+        while queue != []:
+            currentWords = queue.popleft()
+            layer += 1
+            newList = []
+            for word in currentWords:
+                visited.add(word)
+
+                for nextWord in wordHashMap[word]:
+                    if nextWord == endWord:
+                        return layer
+                    else:
+                        if nextWord not in visited:
+                            newList.append(nextWord)
+            if newList != []:
+                queue.append(newList)
+            else:
+                return 0
+
+        return layer
+
+
+class Solution:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
         if endWord not in wordList:
             return 0
 
