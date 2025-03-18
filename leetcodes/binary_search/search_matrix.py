@@ -1,5 +1,48 @@
 from typing import List
 
+
+# 17 March 2025 Practice
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        # 10.08
+        if target < matrix[0][0]:
+            return False
+        if target > matrix[-1][-1]:
+            return False
+
+        def BinarySearch(target, nums) -> bool:
+            l = 0
+            r = len(nums) - 1
+
+            while l <= r:
+                left = nums[l]
+                right = nums[r]
+                mid = (l + r) // 2
+                middle = nums[mid]
+                print(left)
+                print(right)
+                print(middle)
+
+                if left == target or right == target or target == middle:
+                    return True
+                elif target > middle:
+                    l = mid + 1
+                elif target < middle:
+                    r = mid - 1
+
+            return False
+
+        numberOfRow = 0
+
+        for elements in matrix:
+            if target <= elements[-1]:
+                break
+            elif target > elements[-1]:
+                numberOfRow += 1
+
+        return BinarySearch(target, matrix[numberOfRow])  # 21 Min
+
+
 # 4th March 2025 Practice
 
 

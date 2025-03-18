@@ -2,6 +2,49 @@
 from typing import List
 
 
+class Solution(object):
+    def findOrder(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: List[int]
+        """
+        # 12.47
+        adjList = {}
+        for i in range(numCourses):
+            adjList[i] = []
+        for cus, pre in prerequisites:
+            adjList[pre].append(cus)
+
+        visited = set()
+        finished = set()
+        result = []
+
+        def backtracking(crs):
+            if crs in visited:
+                return False
+            if crs in finished:
+                return True
+            visited.add(crs)
+
+            for c in adjList[crs]:
+                valid = backtracking(c)
+                if not valid:
+                    return False
+            visited.remove(crs)
+            result.append(crs)
+            finished.add(crs)
+
+            return True
+
+        for i in range(numCourses):
+            dicision = backtracking(i)
+            if not dicision:
+                return []
+
+        return result[::-1]
+
+
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
         preMap = {crs: [] for crs in range(numCourses)}
