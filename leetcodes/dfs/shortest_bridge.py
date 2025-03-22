@@ -5,6 +5,58 @@ from collections import deque
 from typing import List
 
 
+# 21 Mar 2025 Practice
+class Solution(object):
+    def shortestBridge(self, grid):
+        xLen = len(grid[0])
+        yLen = len(grid)
+        visited = set()
+        directions = [(0, 1), (1, 0), (-1, 0), (0, -1)]
+        queue = deque()
+
+        # Find first island
+        def dfs(x, y):
+            if (
+                x < 0
+                or x >= xLen
+                or y < 0
+                or y >= yLen
+                or (x, y) in visited
+                or grid[y][x] != 1
+            ):
+                return
+            visited.add((x, y))
+            queue.append((x, y))
+            for dx, dy in directions:
+                dfs(x + dx, y + dy)
+
+        found = False
+        for y in range(yLen):
+            for x in range(xLen):
+                if grid[y][x] == 1:
+                    dfs(x, y)
+                    found = True
+                    break
+            if found:
+                break
+
+        # BFS to find shortest path to the second island
+        steps = 0
+        while queue:
+            for _ in range(len(queue)):
+                x, y = queue.popleft()
+                for dx, dy in directions:
+                    nx, ny = x + dx, y + dy
+                    if 0 <= nx < xLen and 0 <= ny < yLen and (nx, ny) not in visited:
+                        if grid[ny][nx] == 1:
+                            return steps
+                        queue.append((nx, ny))
+                        visited.add((nx, ny))
+            steps += 1
+
+        return -1  # in case something is wrong
+
+
 class Solution:
     def shortestBridge(self, grid: List[List[int]]) -> int:
         N = len(grid)

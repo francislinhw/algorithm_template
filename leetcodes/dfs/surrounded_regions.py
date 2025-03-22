@@ -10,7 +10,7 @@ class Solution:
 
         rows = len(board)
         cols = len(board[0])
-        visited = set()
+        visited = set()  # Save the points of "O" starting from the boundary
 
         def dfs(row: int, col: int) -> None:
             if (
