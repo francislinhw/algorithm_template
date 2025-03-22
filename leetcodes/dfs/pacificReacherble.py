@@ -1,6 +1,136 @@
 from typing import List
 
 
+# 22 Mar 2025 Practice
+class Solution:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        if not heights or not heights[0]:
+            return []
+
+        yLen, xLen = len(heights), len(heights[0])
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        result = []
+
+        def dfs(x, y, visited):
+            if (x, y) in visited:  # Already start without new cell
+                return False, False
+
+            visited.add((x, y))
+            pacific = x == 0 or y == 0
+            atlantic = x == xLen - 1 or y == yLen - 1
+
+            # DFS will go all the way to the edge of the map
+            for dx, dy in directions:
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < xLen and 0 <= ny < yLen and heights[ny][nx] <= heights[y][x]:
+                    p, a = dfs(nx, ny, visited)
+                    pacific = pacific or p
+                    atlantic = atlantic or a
+
+            # After DFS, it knows if the cell is connect to Pacific/Atlantic
+            return pacific, atlantic
+
+        for y in range(yLen):
+            for x in range(xLen):
+                visited = set()
+                pac, atl = dfs(x, y, visited)
+                if pac and atl:
+                    result.append([y, x])
+
+        return result
+
+
+class Solution:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        if not heights:
+            return []
+
+        yLen, xLen = len(heights), len(heights[0])
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+        def dfs(x, y, visited, prevHeight):
+            if (
+                x < 0
+                or x >= xLen
+                or y < 0
+                or y >= yLen
+                or (x, y) in visited
+                or heights[y][x] < prevHeight
+            ):
+                return
+            visited.add((x, y))
+            for dx, dy in directions:
+                dfs(x + dx, y + dy, visited, heights[y][x])
+
+        result = []
+
+        for y in range(yLen):
+            for x in range(xLen):
+                pacific_visited = set()
+                atlantic_visited = set()
+
+                dfs(x, y, pacific_visited, heights[y][x])
+                dfs(x, y, atlantic_visited, heights[y][x])
+
+                # 如果這個點的水流可以觸碰到 Pacific 和 Atlantic
+                if any(px == 0 or py == 0 for (px, py) in pacific_visited) and any(
+                    px == xLen - 1 or py == yLen - 1 for (px, py) in atlantic_visited
+                ):
+                    result.append([y, x])
+
+        return result
+
+
+class Solution:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        # 3.20
+        # Step1: DFS Problem - For loop each cells
+        # Step2: DFS to identify if the cell is connect to Pacific/Altantic
+        # Step3: Return My findings
+
+        # Base
+        if not heights:
+            return []
+
+        yLen = len(heights)
+        xLen = len(heights[0])
+
+        pacific = set()
+        atlantic = set()
+
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+        def dfs(x, y, visited, prevHeight):
+            if (
+                x < 0
+                or x >= xLen
+                or y < 0
+                or y >= yLen
+                or (x, y) in visited
+                or heights[y][x] < prevHeight
+            ):
+                return
+            visited.add((x, y))
+            for dx, dy in directions:
+                dfs(x + dx, y + dy, visited, heights[y][x])
+
+        # 從 Pacific 的邊界開始 DFS
+        for i in range(xLen):
+            dfs(i, 0, pacific, heights[0][i])  # 上邊界
+            dfs(i, yLen - 1, atlantic, heights[yLen - 1][i])  # 下邊界
+        for j in range(yLen):
+            dfs(0, j, pacific, heights[j][0])  # 左邊界
+            dfs(xLen - 1, j, atlantic, heights[j][xLen - 1])  # 右邊界
+
+        result = []
+        for y in range(yLen):
+            for x in range(xLen):
+                if (x, y) in pacific and (x, y) in atlantic:
+                    result.append([y, x])
+
+        return result
+
+
 class Solution(object):
     def pacificAtlantic(self, heights):
         """
