@@ -1,3 +1,50 @@
+# https://leetcode.com/problems/word-search/
+
+from typing import List
+
+
+# 24 March practice
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        if not board:
+            return False
+
+        xLen = len(board[0])
+        yLen = len(board)
+
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+        def dfs(x, y, index):
+            # If we've matched the entire word
+            if index == len(word):
+                return True
+            # If out of bounds or current cell does not match the required character
+            if x < 0 or y < 0 or x >= xLen or y >= yLen or board[y][x] != word[index]:
+                return False
+
+            # Temporarily mark the current cell as visited
+            temp = board[y][x]
+            board[y][x] = "/"
+
+            # Explore all possible directions
+            for dx, dy in directions:
+                if dfs(x + dx, y + dy, index + 1):
+                    return True
+
+            # Backtrack: restore the current cell
+            board[y][x] = temp
+            return False
+
+        # Start DFS from every cell that matches the first letter of the word
+        for i in range(xLen):
+            for j in range(yLen):
+                if board[j][i] == word[0]:  # Match the first letter of the word
+                    if dfs(i, j, 0):
+                        return True
+
+        return False
+
+
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
 
