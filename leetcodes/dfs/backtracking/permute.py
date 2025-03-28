@@ -14,7 +14,7 @@ class Solution:
 
         def backtrack():
             if len(nums) == len(curr):
-                res.append(curr.copy())
+                res.append(curr.copy())  # curr[:] for python
                 return
 
             for num in nums:
