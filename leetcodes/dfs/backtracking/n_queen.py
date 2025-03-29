@@ -1,6 +1,43 @@
 from ast import List
 
 
+class Solution(object):
+    def solveNQueens(self, n):
+        """
+        :type n: int
+        :rtype: List[List[str]]
+        """
+        res = []
+
+        def backtrack(row, cols, diag1, diag2, path):
+            if row == n:
+                board = []
+                for i in path:
+                    row_str = ["."] * n
+                    row_str[i] = "Q"
+                    board.append("".join(row_str))
+                res.append(board)
+                return
+
+            for col in range(n):
+                if col in cols or (row - col) in diag1 or (row + col) in diag2:
+                    continue
+                cols.add(col)
+                diag1.add(row - col)
+                diag2.add(row + col)
+                path.append(col)
+
+                backtrack(row + 1, cols, diag1, diag2, path)
+
+                cols.remove(col)
+                diag1.remove(row - col)
+                diag2.remove(row + col)
+                path.pop()
+
+        backtrack(0, set(), set(), set(), [])
+        return res
+
+
 class Solution:
     def solveNQueens(self, n: int) -> List[List[str]]:
 

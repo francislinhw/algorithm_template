@@ -1,4 +1,43 @@
 # https://leetcode.com/problems/n-queens-ii/
+
+
+class Solution(object):
+
+    def totalNQueens(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        # 5.46
+        # put anywhere and check if that is workable
+        # any place that I can decide to be
+
+        # Symbol: "O" Empty, "X" -> Queen
+        self.count = 0
+
+        def backtrack(row, cols, diags1, diags2):
+            if row == n:
+                self.count += 1
+                return
+
+            for col in range(n):
+                if col in cols or (row - col) in diags1 or (row + col) in diags2:
+                    continue
+                # Choose
+                cols.add(col)
+                diags1.add(row - col)
+                diags2.add(row + col)
+                # Explore
+                backtrack(row + 1, cols, diags1, diags2)
+                # Un-choose
+                cols.remove(col)
+                diags1.remove(row - col)
+                diags2.remove(row + col)
+
+        backtrack(0, set(), set(), set())
+        return self.count
+
+
 class Solution:
     def totalNQueens(self, n: int) -> int:
         if not n:
@@ -21,8 +60,12 @@ class Solution:
                 return
 
             for col in range(n):
-                markPositive = row + col
-                markNegative = row - col
+                markPositive = (
+                    row + col
+                )  # It can be mark as diagnal because the sum of row and col is the same for all diagnals
+                markNegative = (
+                    row - col
+                )  # It can be mark as diagnal because the diff of row and col is the same for all diagnals
 
                 if (
                     board[row][col] != "Q"
