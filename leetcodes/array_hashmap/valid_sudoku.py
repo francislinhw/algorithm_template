@@ -3,6 +3,81 @@
 from typing import List
 
 
+class Solution(object):
+    def isValidSudoku(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: bool
+        """
+        # 8.13
+        if not board:
+            return False
+
+        colDict = dict()
+        rowDict = dict()
+        blockDict = dict()
+
+        legalList = [".", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+        for i in range(len(board[0])):
+            for j in range(len(board)):
+                number = board[j][i]
+
+                if number == ".":
+                    continue
+                if number not in legalList:
+                    return False
+                if i not in rowDict:
+                    rowDict[i] = []
+                if j not in colDict:
+                    colDict[j] = []
+                if (i // 3, j // 3) not in blockDict:
+                    blockDict[(i // 3, j // 3)] = []
+                if (
+                    number in rowDict[i]
+                    or number in colDict[j]
+                    or number in blockDict[(i // 3, j // 3)]
+                ):
+                    return False
+
+                rowDict[i].append(number)
+                colDict[j].append(number)
+                blockDict[(i // 3, j // 3)].append(number)
+
+        return True  # 5 min
+
+
+# 4 Apr 2025
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+
+        rowDict = {}
+        colDict = {}
+        sqDict = {}
+
+        for i in range(len(board)):
+            for j in range(len(board[i])):
+                num = board[i][j]
+                if num == ".":
+                    continue
+                if j not in colDict:
+                    colDict[j] = []
+                if i not in rowDict:
+                    rowDict[i] = []
+                if (i // 3, j // 3) not in sqDict:
+                    sqDict[(i // 3, j // 3)] = []  #
+                if (
+                    num in colDict[j]
+                    or num in rowDict[i]
+                    or num in sqDict[(i // 3, j // 3)]
+                ):
+                    return False
+                colDict[j].append(num)
+                rowDict[i].append(num)
+                sqDict[(i // 3, j // 3)].append(num)
+        return True
+
+
 """
 class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:

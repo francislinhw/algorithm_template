@@ -1,6 +1,56 @@
 # https://leetcode.com/problems/detect-squares/
 
 from typing import List
+from collections import defaultdict
+
+
+# 5 Apr 2025 practice
+class DetectSquares:
+
+    def __init__(self):
+        self.point_count = defaultdict(int)
+
+    def add(self, point: List[int]) -> None:
+        self.point_count[tuple(point)] += 1
+
+    def count(self, point: List[int]) -> int:
+        x, y = point
+        total = 0
+
+        for (px, py), cnt in self.point_count.items():
+            # 忽略不是對角線的點
+            if abs(px - x) != abs(py - y) or px == x or py == y:
+                continue
+
+            # 形成正方形的另外兩個點
+            if (px, y) in self.point_count and (x, py) in self.point_count:
+                total += cnt * self.point_count[(px, y)] * self.point_count[(x, py)]
+
+        return total
+
+
+class DetectSquares:
+
+    def __init__(self):
+        points = {}
+
+    def add(self, point: List[int]) -> None:
+        points = (point[0], point[1])
+        if points not in self.ptsCnt:
+            self.ptsCnt[points] = 1
+            return
+        self.ptsCnt[points] += 1
+
+    def count(self, point: List[int]) -> int:
+        res = 0
+        x, y = point
+
+        for px, py in self.ptsCnt:
+            if abs(px - x) != abs(py - y) or px == x or py == y:
+                continue
+            if (px, y) in self.ptsCnt and (x, py) in self.ptsCnt:
+                res += self.ptsCnt[(px, y)] * self.ptsCnt[(x, py)] * self.ptsCnt[(px, py)]
+        return res
 
 
 class DetectSquares(object):
