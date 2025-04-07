@@ -2,6 +2,60 @@
 from typing import List
 from collections import heapq
 
+import heapq
+
+
+class Solution(object):
+    def swimInWater(self, grid):
+        n = len(grid)
+        visited = [[False] * n for _ in range(n)]
+        heap = [(grid[0][0], 0, 0)]  # (max_so_far, x, y)
+        directions = [(0, 1), (1, 0), (-1, 0), (0, -1)]
+
+        while heap:
+            height, x, y = heapq.heappop(heap)
+            if x == n - 1 and y == n - 1:
+                return height
+            if visited[y][x]:
+                continue
+            visited[y][x] = True
+            for dx, dy in directions:
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < n and 0 <= ny < n and not visited[ny][nx]:
+                    heapq.heappush(heap, (max(height, grid[ny][nx]), nx, ny))
+
+
+class Solution(object):
+    def swimInWater(self, grid):
+        visited = set()
+        xLen = len(grid[0])
+        yLen = len(grid)
+        res = []
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+        def dfs(x, y, path):
+            if x == (xLen - 1) and y == (yLen - 1):
+                path.append(grid[y][x])
+                res.append(path[:])
+                path.pop()
+                return
+            visited.add((x, y))
+            path.append(grid[y][x])
+            for dx, dy in directions:
+                nx = x + dx
+                ny = y + dy
+                if 0 <= nx < xLen and 0 <= ny < yLen and (nx, ny) not in visited:
+                    dfs(nx, ny, path)
+            path.pop()
+            visited.remove((x, y))
+
+        dfs(0, 0, [])
+        minInPath = float("inf")
+        for path in res:
+            maxValue = max(path)
+            minInPath = min(maxValue, minInPath)
+        return minInPath
+
 
 class Solution:
     def swimInWater(self, grid: List[List[int]]) -> int:
@@ -40,7 +94,7 @@ class Solution:
                 heapq.heappush(h, (max(grid[newR][newC], height), newR, newC))
 
 
-def swimInRisingWater(grid: List[List[int]]) -> int :
+def swimInRisingWater(grid: List[List[int]]) -> int:
     heap = []
     heapq.heapify(heap)
     heapq.heappush([grid[0][0], 0, 0])
@@ -62,9 +116,10 @@ def swimInRisingWater(grid: List[List[int]]) -> int :
             newCol = col + dh
 
             if (
-                newRow >= len(grid) or
-                newCol >= len(grid[0])
-                or newRow < 0 or newCol < 0
+                newRow >= len(grid)
+                or newCol >= len(grid[0])
+                or newRow < 0
+                or newCol < 0
                 or (newCol, newRow) in visited
             ):
                 continue

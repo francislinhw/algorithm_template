@@ -2,6 +2,22 @@
 from typing import List
 
 
+# 6 Apr 2025 practice
+class Solution:
+    def arrayChange(self, nums: List[int], operations: List[List[int]]) -> List[int]:
+        """使用哈希映射加速查找和更新，以提高執行效率"""
+        # 11.12
+        hashMap = {value: index for index, value in enumerate(nums)}
+
+        for original, to in operations:
+            oriIndex = hashMap[original]
+            nums[oriIndex] = to
+            del hashMap[original]
+            hashMap[to] = oriIndex
+
+        return nums
+
+
 # 3 March 2025
 class Solution:
     def arrayChange(self, nums: List[int], operations: List[List[int]]) -> List[int]:
