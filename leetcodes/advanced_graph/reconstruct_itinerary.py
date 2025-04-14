@@ -1,4 +1,31 @@
 # https://leetcode.com/problems/reconstruct-itinerary/
+import heapq
+from collections import defaultdict
+
+
+class Solution(object):
+    def findItinerary(self, tickets):
+        """
+        :type tickets: List[List[str]]
+        :rtype: List[str]
+        """
+        # 使用 min-heap 來確保字典序
+        graph = defaultdict(list)
+        for frm, to in tickets:
+            heapq.heappush(graph[frm], to)
+
+        route = []
+
+        def visit(airport):
+            while graph[airport]:
+                next_stop = heapq.heappop(graph[airport])
+                visit(next_stop)
+            route.append(airport)
+
+        visit("JFK")
+        return route[::-1]
+
+
 # class Solution:
 #     def findItinerary(self, tickets: List[List[str]]) -> List[str]:
 #         # gragh / backtracking
