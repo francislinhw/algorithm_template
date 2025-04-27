@@ -1,4 +1,21 @@
 # https://leetcode.com/problems/climbing-stairs/submissions/1609238096/
+
+
+class Solution(object):
+    def climbStairs(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        # 10.06
+        dp = [0 for _ in range(n - 1)] + [1, 1]
+
+        for _ in reversed(range(n - 1)):
+            dp[_] = dp[_ + 1] + dp[_ + 2]
+
+        return dp[0]  # 6 min
+
+
 class Solution:
     def climbStairs(self, n: int) -> int:
         if not n:
