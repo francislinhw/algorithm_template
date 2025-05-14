@@ -4,6 +4,28 @@
 from typing import List
 
 
+class Solution(object):
+    def threeSum(self, nums):
+        nums.sort()
+        n = len(nums)
+        res = set()
+
+        for c in range(1, n - 1):
+            l = 0
+            r = n - 1
+            while l < c and r > c:
+                total = nums[l] + nums[c] + nums[r]
+                if total == 0:
+                    res.add((nums[l], nums[c], nums[r]))
+                    l += 1
+                    r -= 1
+                elif total < 0:
+                    l += 1
+                else:
+                    r -= 1
+        return [list(t) for t in res]
+
+
 class Solution:
     # 27 Feb 2025 practice
 

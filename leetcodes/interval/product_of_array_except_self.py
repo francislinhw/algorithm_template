@@ -41,3 +41,23 @@ class Solution:
             res[j] *= postfix
             postfix *= nums[j]  # right product
         return res
+
+
+class Solution(object):
+    def productExceptSelf(self, nums):
+        n = len(nums)
+        res = [1] * n
+
+        # Left pass
+        left = 1
+        for i in range(n):
+            res[i] = left
+            left *= nums[i]
+
+        # Right pass
+        right = 1
+        for i in range(n - 1, -1, -1):
+            res[i] *= right
+            right *= nums[i]
+
+        return res

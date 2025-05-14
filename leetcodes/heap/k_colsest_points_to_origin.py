@@ -1,7 +1,89 @@
 import heapq
 from math import sqrt
 
+
 # https://leetcode.com/problems/k-closest-points-to-origin/description/
+
+import random
+
+
+class Solution(object):
+    def kClosest(self, points, k):
+        # 7.11
+        pathOrder = []
+        lengthMap = {}
+
+        for x, y in points:
+            distance = x**2 + y**2
+            if distance not in lengthMap:
+                pathOrder.append(distance)
+                lengthMap[distance] = []
+            lengthMap[distance].append([x, y])
+
+        # Quickselect
+        def quickSearch(arr, k):
+            if not arr:
+                return None
+
+            pivot = random.choice(arr)
+            pivots = [n for n in arr if n == pivot]
+            less = [n for n in arr if n < pivot]
+            greater = [n for n in arr if n > pivot]
+
+            if k < len(less):
+                return quickSearch(less, k)
+            elif k < len(less) + len(pivots):
+                return pivot
+            else:
+                return quickSearch(greater, k - len(less) - len(pivots))
+
+        target_dist = quickSearch(pathOrder, k - 1)
+
+        result = []
+        for d in sorted(lengthMap):
+            result += lengthMap[d]
+            if len(result) >= k:
+                return result[:k]
+
+        return result  # backup 26 min
+
+
+class Solution(object):
+    def kClosest(self, points, k):
+        """
+        :type points: List[List[int]]
+        :type k: int
+        :rtype: List[List[int]]
+        """
+        if not points:
+            return []
+
+        listSD = []  # index length
+
+        def lenToOrigin(x, y):
+            return sqrt(x**2 + y**2)
+
+        for i in range(len(points)):
+            x = points[i][0]
+            y = points[i][1]
+            # all sort by default is by index 0
+            listSD.append([lenToOrigin(x, y), x, y])
+
+        heapq.heapify(listSD)  # O(n)
+
+        returnList = []
+
+        for i in range(k):
+            distance, x, y = heapq.heappop(listSD)
+            returnList.append([x, y])
+
+        return returnList
+
+        # list1.sort(key = ) Check
+        # BigO(O(n) + O(n) + O(k * 1)) k < n = O(n)
+        # insert
+        # BigO(O(n) + O(n) + O(k * log n)) k < n = O(n) + O(k log n) -> nLogn
+
 
 import random
 from typing import List

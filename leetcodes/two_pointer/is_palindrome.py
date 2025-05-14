@@ -1,6 +1,42 @@
 # https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/
 
 
+class Solution(object):
+    def isPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        # 12.12
+        a = ord("a")
+        z = ord("z")
+        numeric = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+
+        def processString(string):
+            res = []
+            for i in range(len(string)):
+                if a <= ord(string[i].lower()) <= z:
+                    res.append(string[i].lower())
+                elif string[i] in numeric:
+                    res.append(string[i])
+            return "".join(res)
+
+        newString = processString(s)
+        print(newString)
+        l = 0
+        r = len(newString) - 1
+
+        while l < r:
+            left = newString[l]
+            right = newString[r]
+            if left != right:
+                return False
+            l += 1
+            r -= 1
+
+        return True
+
+
 class Solution:
 
     def isPalindrome(self, s):
