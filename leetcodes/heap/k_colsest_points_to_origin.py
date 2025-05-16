@@ -110,7 +110,9 @@ class Solution:
         def quickSelect(points, k):
             if len(points) == 1:
                 return points[0]
-            pivot = random.choice(points)
+            pivot = random.choice(
+                points
+            )  # pivot = points[random.randint(0, len(points) - 1)]
 
             left = [x for x in points if x < pivot]
             mid = [x for x in points if x == pivot]
