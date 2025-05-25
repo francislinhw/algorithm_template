@@ -3,6 +3,40 @@
 from typing import List
 
 
+class Solution:
+    def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
+        p = [False, False, False]
+
+        for triplet in triplets:
+            if all(triplet[i] <= target[i] for i in range(3)):
+                for i in range(3):
+                    if triplet[i] == target[i]:
+                        p[i] = True
+
+        return all(p)
+
+
+class Solution:
+    def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
+        # 10.22
+        p = [False, False, False]
+
+        for i in range(3):  # 0 1 2
+            for j in range(len(triplets)):
+                triplet = triplets[j]
+                other1Index = (i + 1) % 3  # 1 2 0
+                other2Index = (i + 2) % 3  # 2 0 1
+
+                if (
+                    triplet[i] == target[i]
+                    and triplet[other1Index] <= target[other1Index]
+                    and triplet[other2Index] <= target[other2Index]
+                ):
+                    p[i] = True
+
+        return p[0] and p[1] and p[2]  # 30 min
+
+
 # 13 March 2025
 class Solution:
     def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:

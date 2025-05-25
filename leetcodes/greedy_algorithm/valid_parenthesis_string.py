@@ -1,6 +1,29 @@
 # https://leetcode.com/problems/valid-parenthesis-string/description/
 
 
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        # 9.42
+        low = 0  # minimum open parenthesis count
+        high = 0  # maximum open parenthesis count
+
+        for c in s:
+            if c == "(":
+                low += 1
+                high += 1
+            elif c == ")":
+                low = max(low - 1, 0)
+                high -= 1
+            else:  # '*'
+                low = max(low - 1, 0)
+                high += 1
+
+            if high < 0:
+                return False
+
+        return low == 0
+
+
 # 12 March 2025 Practice
 class Solution:
     def checkValidString(self, s: str) -> bool:

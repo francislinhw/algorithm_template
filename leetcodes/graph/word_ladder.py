@@ -1,6 +1,87 @@
 # https://leetcode.com/problems/word-ladder/
 from typing import List
-from collections import deque
+
+from collections import defaultdict, deque
+
+
+class Solution:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        if endWord not in wordList:
+            return 0
+
+        L = len(beginWord)
+        # 建立 pattern 對應字典
+        all_combo_dict = defaultdict(list)
+        for word in wordList:
+            for i in range(L):
+                pattern = word[:i] + "*" + word[i + 1 :]
+                all_combo_dict[pattern].append(word)
+
+        # BFS 初始化
+        q = deque([(beginWord, 1)])
+        visited = set([beginWord])
+
+        while q:
+            current_word, level = q.popleft()
+            for i in range(L):
+                pattern = current_word[:i] + "*" + current_word[i + 1 :]
+                for neighbor in all_combo_dict[pattern]:
+                    if neighbor == endWord:
+                        return level + 1
+                    if neighbor not in visited:
+                        visited.add(neighbor)
+                        q.append((neighbor, level + 1))
+                # 清除已訪問 pattern 減少未來遍歷成本
+                all_combo_dict[pattern] = []
+
+        return 0
+
+
+class Solution:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        # 11.46
+        if beginWord == endWord:
+            return 0
+        if endWord not in wordList:
+            return 0
+        # Tree and BFS
+        visited = set()
+
+        def distance(word1, word2):
+            count = 0
+            for i in range(len(word1)):
+                if word1[i] != word2[i]:
+                    count += 1
+
+            return count
+
+        adjMap = {}
+        adjList = wordList[:]
+        adjList.append(beginWord)
+        for word1 in adjList:
+            if word1 not in adjMap:
+                adjMap[word1] = []
+            for word2 in wordList:
+                if 1 == distance(word1, word2):
+                    adjMap[word1].append(word2)
+
+        q = deque([])
+        q.append(beginWord)
+        layer = 1
+
+        while q:
+            for i in range(len(q)):
+                curr = q.popleft()
+                if curr == endWord:
+                    return layer
+                visited.add(curr)
+                for word in adjMap[curr]:
+                    if word not in visited:
+                        visited.add(word)
+                        q.append(word)
+            layer += 1
+
+        return 0
 
 
 class Solution:

@@ -3,6 +3,35 @@
 from typing import List
 import heapq
 
+
+class Solution:
+
+    def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:
+        length = len(hand)
+        if length % groupSize != 0:
+            return False
+
+        cnt = {}
+        for num in hand:
+            if num not in cnt:
+                cnt[num] = 1
+                continue
+            cnt[num] += 1
+
+        handHeap = list(set(hand))
+        heapq.heapify(handHeap)
+
+        while handHeap:
+            firstNum = handHeap[0]
+            for j in range(firstNum, firstNum + groupSize):
+                if j not in cnt or cnt[j] == 0:
+                    return False
+                cnt[j] -= 1
+                if cnt[j] == 0:
+                    heapq.heappop(handHeap)
+        return True
+
+
 # 13 March 2025
 
 

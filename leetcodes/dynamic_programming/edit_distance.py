@@ -3,6 +3,65 @@
 
 class Solution(object):
     def minDistance(self, word1, word2):
+        # 9.09
+        firstLength = len(word1)
+        secondLength = len(word2)
+
+        dp = [[0 for i in range(firstLength + 1)] for j in range(secondLength + 1)]
+
+        for i in range(firstLength):
+            dp[secondLength][i] = firstLength - i
+
+        for i in range(secondLength):
+            dp[i][firstLength] = secondLength - i
+
+        insert = 0
+        delete = 0
+        replace = 0
+
+        for i in reversed(range(firstLength)):
+            for j in reversed(range(secondLength)):
+                char1 = word1[i]
+                char2 = word2[j]
+
+                if char1 != char2:
+                    insert = 1 + dp[j][1 + i]
+                    delete = 1 + dp[1 + j][1 + i]
+                    replace = 1 + dp[1 + j][i]
+
+                    dp[j][i] = min(insert, delete, replace)
+                else:
+                    dp[j][i] = dp[j + 1][i + 1]
+
+        return dp[0][0]
+
+
+class Solution(object):
+    def minDistance(self, word1, word2):
+        m, n = len(word1), len(word2)
+        dp = [[0 for _ in range(n + 1)] for _ in range(m + 1)]
+
+        # 初始化：處理邊界（最後一行與最後一列）
+        for i in range(m + 1):
+            dp[i][n] = m - i  # 只剩 delete
+        for j in range(n + 1):
+            dp[m][j] = n - j  # 只剩 insert
+
+        for i in reversed(range(m)):
+            for j in reversed(range(n)):
+                if word1[i] == word2[j]:
+                    dp[i][j] = dp[i + 1][j + 1]
+                else:
+                    insert = 1 + dp[i][j + 1]
+                    delete = 1 + dp[i + 1][j]
+                    replace = 1 + dp[i + 1][j + 1]
+                    dp[i][j] = min(insert, delete, replace)
+
+        return dp[0][0]
+
+
+class Solution(object):
+    def minDistance(self, word1, word2):
         m, n = len(word1), len(word2)
 
         dp = [

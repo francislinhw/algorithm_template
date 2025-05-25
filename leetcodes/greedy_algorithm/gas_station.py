@@ -3,6 +3,25 @@
 from typing import List
 
 
+class Solution:
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        if sum(gas) < sum(cost):
+            return -1
+
+        start = 0
+        currTank = 0
+
+        for i in range(len(gas)):
+            diff = gas[i] - cost[i]
+            currTank += diff
+
+            if currTank < 0:
+                start = i + 1
+                currTank = 0
+
+        return start
+
+
 # 13 March 2025 practice
 class Solution:
     def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
