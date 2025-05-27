@@ -4,6 +4,43 @@ from typing import List
 from collections import defaultdict
 
 
+class DetectSquares:
+    # 7.31
+
+    def __init__(self):
+        self._points = {}
+
+    def add(self, point: List[int]) -> None:
+        if tuple(point) in self._points:
+            self._points[tuple(point)] += 1
+        else:
+            self._points[tuple(point)] = 1
+
+    def count(self, point: List[int]) -> int:
+        count = 0
+
+        for diag_point, number in self._points.items():
+            if (
+                abs(point[0] - diag_point[0]) == abs(point[1] - diag_point[1])
+                and abs(point[1] - diag_point[1]) > 0
+            ):
+                other_point_one = [point[0], diag_point[1]]
+                other_point_two = [diag_point[0], point[1]]
+
+                if (
+                    tuple(other_point_one) in self._points
+                    and tuple(other_point_two) in self._points
+                ):
+                    count += (
+                        1
+                        * self._points[tuple(other_point_one)]
+                        * self._points[tuple(other_point_two)]
+                        * number
+                    )
+
+        return count  # 7.49
+
+
 # 5 Apr 2025 practice
 class DetectSquares:
 
