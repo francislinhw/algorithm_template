@@ -2,6 +2,53 @@
 from typing import List
 
 
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        if not numCourses:
+            return False
+
+        visited = set()
+        okay = set()
+        order = []
+
+        adjacencyMap = {i: [] for i in range(numCourses)}
+
+        for prerequisite in prerequisites:
+            course = prerequisite[0]
+            prerequsite = prerequisite[1]
+            adjacencyMap[course].append(prerequsite)
+
+        print(adjacencyMap)
+
+        def iterateGraph(startPoint: int):
+            if startPoint in okay:
+                return True
+            if startPoint in visited:
+                return False
+            visited.add(startPoint)
+
+            for p in adjacencyMap[startPoint]:
+                # if p in visited: # 這是錯誤邏輯
+                #     return False # 這是錯誤邏輯
+                valid = iterateGraph(p)
+                if not valid:
+                    return False
+
+            visited.remove(startPoint)
+            okay.add(startPoint)
+            order.append(startPoint)
+
+            return True
+
+        for course, precourse in adjacencyMap.items():
+            if not iterateGraph(course):
+                return []
+
+        return order
+        # O(E + V) ~ O (n) # E and V 只差一
+        #
+
+
 class Solution(object):
     def findOrder(self, numCourses, prerequisites):
         """
