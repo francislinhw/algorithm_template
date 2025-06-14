@@ -5,6 +5,74 @@ from typing import List
 
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
+        # 12.11
+        xLen, yLen = len(grid[0]), len((grid))
+
+        visited = set()
+
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+        count = 0
+
+        def dfs(x, y):
+            if x < 0 or y < 0 or x > xLen - 1 or y > yLen - 1:
+                return False
+            if grid[y][x] == "0":
+                return False
+            if (x, y) in visited:
+                return
+            visited.add((x, y))
+
+            for dx, dy in directions:
+                dfs(x + dx, y + dy)
+            return True
+
+        for i in range(xLen):
+            for j in range(yLen):
+                if dfs(i, j):
+                    count += 1
+
+        return count
+
+
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        # 3/22 4.37
+        # Use DFS to find whole island and cnt it
+        # For loop to iterate whole graph
+
+        if not grid:
+            return 0
+
+        visited = set()
+
+        xLen = len(grid[0])
+        yLen = len(grid)
+
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+        def dfs(x, y):
+            if (x, y) in visited or x < 0 or y < 0 or x >= xLen or y >= yLen:
+                return
+            if grid[y][x] == "0":
+                return
+            visited.add((x, y))
+            for dx, dy in directions:
+                dfs(x + dx, y + dy)
+
+        numberOfIsland = 0
+
+        for i in range(xLen):
+            for j in range(yLen):
+                if (i, j) not in visited and grid[j][i] == "1":
+                    numberOfIsland += 1
+                    dfs(i, j)
+
+        return numberOfIsland  # 10 min
+
+
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
         # 3/22 4.37
         # Use DFS to find whole island and cnt it
         # For loop to iterate whole graph

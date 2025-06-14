@@ -4,6 +4,21 @@ from typing import List
 from heapq import heapify, heappop, heappush
 
 
+class Solution:
+    def lastStoneWeight(self, stones: List[int]) -> int:
+        # 11.20
+        stonesNew = [-i for i in stones]
+        heapify(stonesNew)
+
+        while len(stonesNew) >= 2:
+            one = heappop(stonesNew)
+            two = heappop(stonesNew)
+            diff = -abs(one - two)
+            heappush(stonesNew, diff)
+
+        return -stonesNew[0]
+
+
 # 22 March 2025
 class Solution:
     def lastStoneWeight(self, stones: List[int]) -> int:

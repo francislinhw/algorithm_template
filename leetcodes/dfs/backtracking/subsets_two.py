@@ -3,6 +3,28 @@
 from typing import List
 
 
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        # 8.57
+
+        nums.sort()
+        result = []
+        path = []
+
+        def backtrack(start: int):
+            result.append(path[:])
+
+            for i in range(start, len(nums)):
+                if i > start and nums[i] == nums[i - 1]:
+                    continue
+                path.append(nums[i])
+                backtrack(i + 1)
+                path.pop()
+
+        backtrack(0)
+        return result
+
+
 # 25 March 2025 Practice
 class Solution:
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:

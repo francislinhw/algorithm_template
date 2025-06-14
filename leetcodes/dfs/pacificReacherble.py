@@ -1,6 +1,87 @@
 from typing import List
 
 
+class Solution:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        pacificVisited = set()
+        atlanticVisited = set()
+
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+        def dfs(x, y, prevHeight, visited):
+            if (x, y) in visited:
+                return
+            if y < 0 or x < 0 or y >= len(heights) or x >= len(heights[0]):
+                return
+
+            curHeight = heights[y][x]
+            if curHeight < prevHeight:
+                return
+
+            visited.add((x, y))
+
+            for dx, dy in directions:
+                dfs(x + dx, y + dy, curHeight, visited)
+
+        rows, cols = len(heights), len(heights[0])
+
+        for y in range(rows):
+            dfs(0, y, heights[y][0], pacificVisited)  # 左邊界
+            dfs(cols - 1, y, heights[y][cols - 1], atlanticVisited)  # 右邊界
+
+        for x in range(cols):
+            dfs(x, 0, heights[0][x], pacificVisited)  # 上邊界
+            dfs(x, rows - 1, heights[rows - 1][x], atlanticVisited)  # 下邊界
+
+        res = []
+        for x, y in pacificVisited & atlanticVisited:
+            res.append([y, x])  # 注意：output 要 [row, col]
+
+        return res
+
+
+class Solution:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        # 3.20
+        # Step1: DFS Problem - For loop each cells
+        # Step2: DFS to identify if the cell is connect to Pacific/Altantic
+        # Step3: Return My findings
+
+        # Base
+        if not heights or not heights[0]:
+            return []
+
+        yLen, xLen = len(heights), len(heights[0])
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        result = []
+
+        def dfs(x, y, visited):
+            if (x, y) in visited:
+                return False, False
+
+            visited.add((x, y))
+            pacific = x == 0 or y == 0
+            atlantic = x == xLen - 1 or y == yLen - 1
+
+            for dx, dy in directions:
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < xLen and 0 <= ny < yLen and heights[ny][nx] <= heights[y][x]:
+                    p, a = dfs(nx, ny, visited)
+                    pacific = pacific or p
+                    atlantic = atlantic or a
+
+            return pacific, atlantic
+
+        for y in range(yLen):
+            for x in range(xLen):
+                visited = set()
+                pac, atl = dfs(x, y, visited)
+                if pac and atl:
+                    result.append([y, x])
+
+        return result
+
+
 # 22 Mar 2025 Practice
 class Solution:
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:

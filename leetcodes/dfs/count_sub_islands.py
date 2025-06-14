@@ -4,6 +4,28 @@ from typing import List
 
 class Solution:
     def countSubIslands(self, grid1: List[List[int]], grid2: List[List[int]]) -> int:
+        m, n = len(grid1), len(grid1[0])
+
+        def dfs(x, y):
+            if x < 0 or y < 0 or x >= m or y >= n or grid2[x][y] == 0:
+                return True
+            grid2[x][y] = 0
+            res = True if grid1[x][y] == 1 else False
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                res = dfs(x + dx, y + dy) and res
+            return res
+
+        ans = 0
+        for i in range(m):
+            for j in range(n):
+                if grid2[i][j] == 1:
+                    if dfs(i, j):
+                        ans += 1
+        return ans
+
+
+class Solution:
+    def countSubIslands(self, grid1: List[List[int]], grid2: List[List[int]]) -> int:
         # 1.45 # Bad
         # Step 1: Iterate Grid 1 and have visted
         # Step 2: Iterate Grid 2 and have isolated island
