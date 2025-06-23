@@ -8,6 +8,45 @@ class Solution(object):
         :rtype: List[List[str]]
         """
         res = []
+        colSet = set()
+        diagonalSet = set()
+        reverseDiagonalSet = set()
+        board = [["."] * n for _ in range(n)]
+
+        def dfs(row):
+            if row == n:
+                res.append(["".join(r) for r in board])
+                return
+            for col in range(n):
+                if (
+                    col in colSet
+                    or (row - col) in diagonalSet
+                    or (row + col) in reverseDiagonalSet
+                ):
+                    continue
+                # put queen
+                board[row][col] = "Q"
+                colSet.add(col)
+                diagonalSet.add(row - col)
+                reverseDiagonalSet.add(row + col)
+                dfs(row + 1)
+                # backtrack
+                board[row][col] = "."
+                colSet.remove(col)
+                diagonalSet.remove(row - col)
+                reverseDiagonalSet.remove(row + col)
+
+        dfs(0)
+        return res
+
+
+class Solution(object):
+    def solveNQueens(self, n):
+        """
+        :type n: int
+        :rtype: List[List[str]]
+        """
+        res = []
 
         def backtrack(row, cols, diag1, diag2, path):
             if row == n:

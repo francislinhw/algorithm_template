@@ -15,6 +15,35 @@ class ListNode:
 
 class Solution:
     def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:
+        # 10.07
+        if not head:
+            return None
+
+        # Dummy heads
+        smaller_head = ListNode(0)
+        larger_head = ListNode(0)
+        small = smaller_head
+        large = larger_head
+
+        while head:
+            if head.val < x:
+                small.next = head
+                small = small.next
+            else:
+                large.next = head
+                large = large.next
+            head = head.next
+
+        # Important: close the larger list
+        large.next = None
+        # Connect smaller list to larger list
+        small.next = larger_head.next
+
+        return smaller_head.next
+
+
+class Solution:
+    def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:
         before_head = ListNode(0)
         after_head = ListNode(0)
         before = before_head

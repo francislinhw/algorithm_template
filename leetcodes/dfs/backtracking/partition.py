@@ -1,6 +1,30 @@
 from ast import List
 
 # https://leetcode.com/problems/palindrome-partitioning/
+from typing import List
+
+
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        def isPalindrome(word):
+            return word == word[::-1]
+
+        res = []
+
+        def dfs(start, path):
+            if start == len(s):
+                res.append(path[:])
+                return
+
+            for end in range(start + 1, len(s) + 1):
+                substring = s[start:end]
+                if isPalindrome(substring):
+                    path.append(substring)
+                    dfs(end, path)
+                    path.pop()  # 回溯
+
+        dfs(0, [])
+        return res
 
 
 class Solution:
