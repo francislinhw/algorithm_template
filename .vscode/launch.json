@@ -1,15 +1,74 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Python Debugger: Current File",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python Debugger: Current File",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "C++ Runner: Debug Session G++ 11",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${fileDirname}/bin",
+      "args": [],
+      "cwd": "${fileDirname}",
+      "preLaunchTask": "C++: Build with QuantLib G++ 11"
+    },
+    {
+      "name": "C++ Runner: Debug Session G++ 14",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${fileDirname}/bin",
+      "args": [],
+      "cwd": "${fileDirname}",
+      "preLaunchTask": "C++: Build with QuantLib G++ 14"
+    },
+    {
+      "name": "C++ Runner: Debug Session Makefile - General",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${fileDirname}/bin/app", 
+      "args": [],
+      "cwd": "${fileDirname}",
+      "preLaunchTask": "C++: Build with QuantLib Makefile"
+    },
+    {
+      "name": "C++ Runner: Debug Session Makefile - Main",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${fileDirname}/bin/main", 
+      "args": [],
+      "cwd": "${fileDirname}",
+      "preLaunchTask": "C++: Build with QuantLib Makefile"
+    },
+    {
+      "name": "C++ Runner: Debug Session Makefile - Unit Test",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${fileDirname}/bin/unit_test", 
+      "args": [],
+      "cwd": "${fileDirname}",
+      "preLaunchTask": "C++: Build with QuantLib Makefile"
+    },
+    {
+      "name": "C Runner: Debug Session G++ 14",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${fileDirname}/bin",
+      "args": [],
+      "cwd": "${fileDirname}",
+      "preLaunchTask": "C: Build with QuantLib G++ 14"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/francis/private_projects/algorithm_template/system_design/cpp_introduction/sample1",
+      "program": "/Users/francis/private_projects/algorithm_template/system_design/cpp_introduction/sample1/build/Debug/outDebug"
+    }
+  ]
 }

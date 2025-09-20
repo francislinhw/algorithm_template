@@ -166,3 +166,16 @@ cython_debug/
 *.DS_Store
 *.pem
 test
+bin
+info.plist
+bin.dSYM
+bin.dSYM.zip
+bin.dSYM.zip.part
+bin.dSYM.zip.part.1
+bin.dSYM.zip.part.2
+bin.dSYM.zip.part.3
+bin.dSYM.zip.part.4
+bin.dSYM.zip.part.5
+*.zip
+*.rar
+~$*

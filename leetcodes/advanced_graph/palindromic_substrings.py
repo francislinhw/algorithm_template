@@ -1,4 +1,30 @@
 # https://leetcode.com/problems/palindromic-substrings/description/
+class Solution(object):
+    def countSubstrings(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+
+        # 11.10 string
+        def isPalindromic(string):
+            return string == string[::-1]
+
+        count = [0]
+        res = [set()]
+
+        def dfs(start, num):
+            if start + num > len(s):
+                return
+            subres = s[start : start + num]
+            if subres not in res[0] and isPalindromic(subres):
+                count[0] += 1
+            dfs(start + 1, num)
+
+        for i in range(1, len(s) + 1):
+            dfs(0, i)
+
+        return count[0]  # 11.22
 
 
 class Solution(object):

@@ -1,4 +1,42 @@
 # https://leetcode.com/problems/word-break/
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        """
+        :type s: str
+        :type wordDict: List[str]
+        :rtype: bool
+        """
+        dp = [False] * (len(s) + 1)
+        dp[len(s)] = True
+
+        for i in range(len(s) - 1, -1, -1):
+            for w in wordDict:
+                if s.startswith(w, i):
+                    dp[i] = dp[i + len(w)]
+                if dp[i]:
+                    break
+
+        return dp[0]
+
+
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        """
+        :type s: str
+        :type wordDict: List[str]
+        :rtype: bool
+        """
+        # 3.10
+        dp = [False] * (len(s))
+        dp.append(True)
+
+        for i in reversed(range(len(s))):
+            for w in wordDict:
+                if i + len(w) <= len(s) and s[i : i + len(w)] == w and dp[i + len(w)]:
+                    dp[i] = True
+                    break
+
+        return dp[0]
 
 
 # 14 April 2025

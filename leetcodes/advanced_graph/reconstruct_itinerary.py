@@ -9,7 +9,33 @@ class Solution(object):
         :type tickets: List[List[str]]
         :rtype: List[str]
         """
-        # 使用 min-heap 來確保字典序
+        import collections
+        from heapq import heappush, heappop
+
+        # Build graph with lexical order using min-heap
+        adjList = collections.defaultdict(list)
+        for frm, to in tickets:
+            heappush(adjList[frm], to)
+
+        result = []
+
+        def dfs(airport):
+            while adjList[airport]:
+                next_airport = heappop(adjList[airport])
+                dfs(next_airport)
+            result.append(airport)
+
+        dfs("JFK")
+        return result[::-1]
+
+
+class Solution(object):
+    def findItinerary(self, tickets):
+        """
+        :type tickets: List[List[str]]
+        :rtype: List[str]
+        """
+
         graph = defaultdict(list)
         for frm, to in tickets:
             heapq.heappush(graph[frm], to)

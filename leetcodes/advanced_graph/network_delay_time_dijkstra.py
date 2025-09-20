@@ -12,6 +12,86 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
+        time = 0
+        visited = set()
+
+        adjDic = {}
+        costDic = {}
+
+        for u, v, w in times:
+            if u not in adjDic:
+                adjDic[u] = []
+            adjDic[u].append(v)
+            costDic[(u, v)] = w  # no need to check existence
+
+        # Store shortest known times to each node
+        shortest = {}
+
+        # queue: (accumulated_time, current_node)
+        q = deque()
+        q.append((0, k))
+
+        while q:
+            cuumT, curr = q.popleft()
+
+            # If we've visited this node with a shorter time, skip it
+            if curr in shortest and cuumT >= shortest[curr]:
+                continue
+
+            # Record the shortest time to this node
+            shortest[curr] = cuumT
+
+            if curr in adjDic:
+                for neighbor in adjDic[curr]:
+                    edge_cost = costDic[(curr, neighbor)]
+                    q.append((cuumT + edge_cost, neighbor))
+
+        if len(shortest) < n:
+            return -1
+
+        return max(shortest.values())
+
+
+class Solution(object):
+    def networkDelayTime(self, times, n, k):
+        """
+        :type times: List[List[int]]
+        :type n: int
+        :type k: int
+        :rtype: int
+        """
+        # Build adjacency list
+        graph = defaultdict(list)
+        for u, v, w in times:
+            graph[u].append((v, w))
+
+        # Min-heap: (time, node)
+        heap = [(0, k)]
+        visited = {}
+
+        while heap:
+            time, node = heapq.heappop(heap)
+            if node in visited:
+                continue
+            visited[node] = time
+            for neighbor, weight in graph[node]:
+                if neighbor not in visited:
+                    heapq.heappush(heap, (time + weight, neighbor))
+
+        if len(visited) < n:
+            return -1
+
+        return max(visited.values())
+
+
+class Solution(object):
+    def networkDelayTime(self, times, n, k):
+        """
+        :type times: List[List[int]]
+        :type n: int
+        :type k: int
+        :rtype: int
+        """
         # 10.56
         # Overview
         # 1. BFS: start k, iterate layer by layer, traversed set, len(set) != n -> -1 or return time

@@ -5,6 +5,77 @@ from collections import deque
 import heapq
 from collections import defaultdict
 
+# from typing import List
+
+# class Solution:
+#     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+#         # 建立鄰接表與價格表
+#         adjDict = {}
+#         priceDict = {}
+
+#         for f, t, p in flights:
+#             if f not in adjDict:
+#                 adjDict[f] = []
+#             adjDict[f].append(t)
+#             priceDict[(f, t)] = p
+
+#         # 初始價格表
+#         container = {i: float("inf") for i in range(n)}
+#         container[src] = 0
+
+#         # 最多 k+1 條邊
+#         for _ in range(k + 1):
+#             # 這一輪的暫存價格表
+#             new_container = container.copy()
+#             for f, t, p in flights:
+#                 if container[f] != float("inf"):
+#                     new_container[t] = min(new_container[t], container[f] + p)
+#             container = new_container
+
+#         return -1 if container[dst] == float("inf") else container[dst]
+
+
+from typing import List
+from collections import deque
+
+
+class Solution:
+    def findCheapestPrice(
+        self, n: int, flights: List[List[int]], src: int, dst: int, k: int
+    ) -> int:
+        # 建立鄰接表 {f: [(t, p), ...]}
+        adjDict = {}
+        for f, t, p in flights:
+            if f not in adjDict:
+                adjDict[f] = []
+            adjDict[f].append((t, p))
+
+        # 價格初始化
+        prices = [float("inf")] * n
+        prices[src] = 0
+
+        # BFS queue: (目前城市, 總價)
+        q = deque([(src, 0)])
+        stops = 0
+
+        # 最多走 k+1 層
+        while q and stops <= k:
+            size = len(q)
+            # 暫存這一層的更新，避免同層相互影響
+            new_prices = prices[:]
+            for _ in range(size):
+                city, cost = q.popleft()
+                if city not in adjDict:
+                    continue
+                for nei, price in adjDict[city]:
+                    if cost + price < new_prices[nei]:
+                        new_prices[nei] = cost + price
+                        q.append((nei, cost + price))
+            prices = new_prices
+            stops += 1
+
+        return -1 if prices[dst] == float("inf") else prices[dst]
+
 
 class Solution(object):
     def findCheapestPrice(self, n, flights, src, dst, k):

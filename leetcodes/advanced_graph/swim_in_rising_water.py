@@ -7,6 +7,27 @@ import heapq
 
 class Solution(object):
     def swimInWater(self, grid):
+        N = len(grid)
+        visited = set()
+        heap = [(grid[0][0], 0, 0)]  # (max water so far, x, y)
+
+        directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+        while heap:
+            cost, x, y = heapq.heappop(heap)
+            if (x, y) == (N - 1, N - 1):
+                return cost
+            if (x, y) in visited:
+                continue
+            visited.add((x, y))
+            for dx, dy in directions:
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < N and 0 <= ny < N and (nx, ny) not in visited:
+                    heapq.heappush(heap, (max(cost, grid[ny][nx]), nx, ny))
+
+
+class Solution(object):
+    def swimInWater(self, grid):
         n = len(grid)
         visited = [[False] * n for _ in range(n)]
         heap = [(grid[0][0], 0, 0)]  # (max_so_far, x, y)

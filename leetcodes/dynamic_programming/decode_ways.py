@@ -3,6 +3,31 @@
 
 class Solution(object):
     def numDecodings(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if not s or s[0] == "0":
+            return 0
+
+        n = len(s)
+        dp = [0] * (n + 1)
+        dp[n] = 1  # 空字串有 1 種解碼方式
+        dp[n - 1] = 1 if s[-1] != "0" else 0
+
+        for i in range(n - 2, -1, -1):
+            if s[i] == "0":
+                dp[i] = 0
+            else:
+                dp[i] = dp[i + 1]
+                if 10 <= int(s[i : i + 2]) <= 26:
+                    dp[i] += dp[i + 2]
+
+        return dp[0]
+
+
+class Solution(object):
+    def numDecodings(self, s):
         # 10.15
         if not s or s[0] == "0":
             return 0

@@ -17,6 +17,55 @@ class TreeNode:
 
 # 31 Mar 2025 Practice
 
+from collections import deque
+
+
+class Solution:
+    def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
+        def isSameTree(n1, n2):
+            if not n1 and not n2:
+                return True
+            if not n1 or not n2:
+                return False
+            return (
+                n1.val == n2.val
+                and isSameTree(n1.left, n2.left)
+                and isSameTree(n1.right, n2.right)
+            )
+
+        queue = deque([root])
+        while queue:
+            curr = queue.popleft()
+            if curr.val == subRoot.val:
+                if isSameTree(curr, subRoot):
+                    return True
+            if curr.left:
+                queue.append(curr.left)
+            if curr.right:
+                queue.append(curr.right)
+        return False
+
+
+class Solution:
+    def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
+        def isSameTree(s, t):
+            if not s and not t:
+                return True
+            if not s or not t:
+                return False
+            return (
+                s.val == t.val
+                and isSameTree(s.left, t.left)
+                and isSameTree(s.right, t.right)
+            )
+
+        if not root:
+            return False
+        if isSameTree(root, subRoot):
+            return True
+        # 只要左或右子樹有符合就行
+        return self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot)
+
 
 class Solution:
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:

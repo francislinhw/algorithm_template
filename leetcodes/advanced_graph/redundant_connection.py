@@ -4,6 +4,62 @@ from typing import List
 from collections import defaultdict
 
 
+class Solution:
+    def findRedundantConnection(self, edges):
+        parent = [i for i in range(len(edges) + 1)]
+        rank = [1] * (len(edges) + 1)
+
+        def find(x):
+            if parent[x] != x:
+                parent[x] = find(parent[x])  # Path compression
+            return parent[x]
+
+        def union(x, y):
+            rootX, rootY = find(x), find(y)
+            if rootX == rootY:
+                return False  # x and y are already connected
+
+            if rank[rootX] < rank[rootY]:
+                parent[rootX] = rootY
+            else:
+                parent[rootY] = rootX
+                if rank[rootX] == rank[rootY]:
+                    rank[rootX] += 1
+            return True  # <-- 確保不管哪個分支都有 return
+
+        for u, v in edges:
+            if not union(u, v):
+                return [u, v]
+
+
+class Solution:
+    def findRedundantConnection(self, edges):
+        parent = [i for i in range(len(edges) + 1)]
+        rank = [1] * (len(edges) + 1)
+
+        def find(x):
+            if parent[x] != x:
+                parent[x] = find(parent[x])  # Path compression
+            return parent[x]
+
+        def union(x, y):
+            rootX, rootY = find(x), find(y)
+            if rootX == rootY:
+                return False  # x and y are already connected
+
+            if rank[rootX] < rank[rootY]:
+                parent[rootX] = rootY
+            else:
+                parent[rootY] = rootX
+                if rank[rootX] == rank[rootY]:
+                    rank[rootX] += 1
+                return True
+
+        for u, v in edges:
+            if not union(u, v):
+                return [u, v]
+
+
 class Solution(object):
     def findRedundantConnection(self, edges):
         parent = {}

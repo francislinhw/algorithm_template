@@ -2,6 +2,41 @@
 from collections import heapq
 from typing import List
 
+import heapq
+
+
+class Solution(object):
+    def minCostConnectPoints(self, points):
+        """
+        :type points: List[List[int]]
+        :rtype: int
+        """
+
+        def distance(x1, x2, y1, y2):
+            return abs(x1 - x2) + abs(y1 - y2)
+
+        n = len(points)
+        visited = set()
+        min_heap = [(0, 0)]  # (cost, point_index)
+        total_cost = 0
+
+        while len(visited) < n:
+            cost, i = heapq.heappop(min_heap)
+            if i in visited:
+                continue
+            visited.add(i)
+            total_cost += cost
+
+            # 將所有未訪問過的點加入 heap
+            for j in range(n):
+                if j not in visited:
+                    dist = distance(
+                        points[i][0], points[j][0], points[i][1], points[j][1]
+                    )
+                    heapq.heappush(min_heap, (dist, j))
+
+        return total_cost
+
 
 class Solution(object):
     def minCostConnectPoints(self, points):
