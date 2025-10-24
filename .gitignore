@@ -6,6 +6,27 @@ __pycache__/
 # C extensions
 *.so
 
+# CSV
+*.csv
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.ico
+*.webp
+*.svg
+*.pdf
+*.xlsx
+*.xls
+*.doc
+*.docx
+*.docm
+*.dotx
+*.dotm
+*.dot
+*.dotx
 # Distribution / packaging
 .Python
 build/
