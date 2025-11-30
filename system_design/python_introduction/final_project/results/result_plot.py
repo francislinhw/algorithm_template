@@ -2,35 +2,22 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# ---------------------------------------------------------
-# 讀取價格資料
-# ---------------------------------------------------------
-
 price_file = (
     "system_design/python_introduction/final_project/data/coin_all_prices_full.csv"
 )
 df = pd.read_csv(price_file)
-
-# 將時間轉成 datetime 並當 index（移除時區）
 df["startTime"] = pd.to_datetime(df["startTime"]).dt.tz_localize(None)
 df = df.set_index("startTime")
-
-# 移除 "time" 欄位 (unix ms)
 if "time" in df.columns:
     df = df.drop(columns=["time"])
 
 # Keep only numeric columns
 df = df.apply(pd.to_numeric, errors="coerce")
 
-# ---------------------------------------------------------
-# 計算報酬
-# ---------------------------------------------------------
+
 returns = df.pct_change().dropna()
 returns.index = returns.index.tz_localize(None)
 
-# ---------------------------------------------------------
-# 載入 eigen-portfolio 權重
-# ---------------------------------------------------------
 eig1 = pd.read_csv(
     "system_design/python_introduction/final_project/results/task1a_1.csv",
     index_col=0,
@@ -40,35 +27,21 @@ eig2 = pd.read_csv(
     index_col=0,
 )
 
-# 解析 timestamp 並移除時區
 eig1.index = pd.to_datetime(eig1.index).tz_localize(None)
 eig2.index = pd.to_datetime(eig2.index).tz_localize(None)
 
-# ---------------------------------------------------------
-# 對齊時間
-# ---------------------------------------------------------
 common_idx = returns.index.intersection(eig1.index)
 returns = returns.loc[common_idx]
 eig1 = eig1.loc[common_idx]
 eig2 = eig2.loc[common_idx]
 
 
-# ---------------------------------------------------------
-# 計算 eigen-portfolio 報酬（重點在這個函數）
-# ---------------------------------------------------------
 def compute_portfolio_return(returns: pd.DataFrame, weights_df: pd.DataFrame):
-    """
-    每個時間點都有一組 eigen-portfolio 權重 Q(t)
-    這裡計算:
-        w_i(t) = Q_i(t) / sum_j |Q_j(t)|
-        r_port(t) = sum_i w_i(t) * r_i(t)
-    這樣可以避免權重尺度爆炸。
-    """
     aligned_cols = list(set(returns.columns).intersection(weights_df.columns))
     R = returns[aligned_cols].copy()
     W = weights_df[aligned_cols].copy()
 
-    # row-wise normalization: 除以當期的權重絕對值總和
+    # row-wise normalization: divide by the absolute value sum of the weights at the current time
     denom = W.abs().sum(axis=1).replace(0, np.nan)
     W_norm = W.div(denom, axis=0).fillna(0.0)
 
@@ -87,7 +60,7 @@ eth_ret = returns["ETH"]
 
 
 # ---------------------------------------------------------
-# 累積報酬
+# Cumulative return
 # ---------------------------------------------------------
 def cumulative(ret):
     return (1 + ret).cumprod()
@@ -123,7 +96,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # =============================
-# 讀取 eigen-portfolio 權重
+# Read eigen-portfolio weights
 # =============================
 eig1 = pd.read_csv(
     "system_design/python_introduction/final_project/results/task1a_1.csv",
@@ -138,7 +111,7 @@ eig1.index = pd.to_datetime(eig1.index).tz_localize(None)
 eig2.index = pd.to_datetime(eig2.index).tz_localize(None)
 
 # =============================
-# 要求的兩個日期（你可以改）
+# The two dates (you can change)
 # =============================
 d1 = pd.Timestamp("2021-10-07")
 d2 = pd.Timestamp("2022-04-15")
@@ -168,7 +141,7 @@ def plot_eigen_weights(date, eig1, eig2):
 
 
 # =============================
-# 輸出兩張圖
+# Output two plots
 # =============================
 plot_eigen_weights(d1, eig1, eig2)
 plot_eigen_weights(d2, eig1, eig2)
